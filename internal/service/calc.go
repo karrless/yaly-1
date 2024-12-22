@@ -128,22 +128,14 @@ func getTokens(ex string) (tokens, error) {
 	for len(ex) != 0 {
 		chr := getNextToken(&ex)
 		offset++
-		if chr == "/" || chr == "*" || chr == "+" || chr == "(" || chr == ")" {
+		if chr == "/" || chr == "*" || chr == "+" || chr == "-" || chr == "(" || chr == ")" {
 			tokensSlice = append(tokensSlice, &token{"op", chr, offset})
 			continue
 		}
 		if chr == " " || chr == "\t" || chr == "\r" {
 			continue
 		}
-		if unicode.IsDigit(rune(chr[0])) || chr == "-" {
-			if chr == "-" {
-				if len(tokensSlice) != 0 {
-					if tokensSlice[len(tokensSlice)-1].ttype == "int" {
-						tokensSlice = append(tokensSlice, &token{"op", chr, offset})
-						continue
-					}
-				}
-			}
+		if unicode.IsDigit(rune(chr[0])) {
 			isFloat := false
 			val := chr
 
@@ -161,9 +153,6 @@ func getTokens(ex string) (tokens, error) {
 					continue
 				}
 				break
-			}
-			if val == "-" {
-				return nil, errs.ErrExpressionNotValid
 			}
 
 			tokensSlice = append(tokensSlice, &token{"float", val, offset})
