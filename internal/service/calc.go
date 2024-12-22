@@ -21,7 +21,6 @@ type tokens [](*token)
 type token struct {
 	ttype string
 	value string
-	pos   int
 }
 
 // Вычисление выражения
@@ -130,12 +129,10 @@ func (c *CalcService) Calc(ex string) (float64, error) {
 // Получение слайса токенов
 func getTokens(ex string) (tokens, error) {
 	tokensSlice := tokens{}
-	offset := 0
 	for len(ex) != 0 {
 		chr := getNextToken(&ex)
-		offset++
 		if chr == "/" || chr == "*" || chr == "+" || chr == "-" || chr == "(" || chr == ")" {
-			tokensSlice = append(tokensSlice, &token{"op", chr, offset})
+			tokensSlice = append(tokensSlice, &token{"op", chr})
 			continue
 		}
 		if chr == " " || chr == "\t" || chr == "\r" {
@@ -161,7 +158,7 @@ func getTokens(ex string) (tokens, error) {
 				break
 			}
 
-			tokensSlice = append(tokensSlice, &token{"float", val, offset})
+			tokensSlice = append(tokensSlice, &token{"float", val})
 
 			continue
 		}
