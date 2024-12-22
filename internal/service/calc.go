@@ -1,25 +1,30 @@
 package service
 
 import (
-	"fmt"
 	"strconv"
 	"unicode"
 	"yaly-1/pkg/errs"
 )
 
+// CalcService - интерфейс сервисного уровня калькулятора
 type CalcService struct{}
 
+// Конструктор для структуры сервисного уровня калькулятора
 func NewCalcService() *CalcService {
 	return &CalcService{}
 }
 
+// Структура для хранения токенов
 type tokens [](*token)
+
+// Структура токена
 type token struct {
 	ttype string
 	value string
 	pos   int
 }
 
+// Вычисление выражения
 func (c *CalcService) Calc(ex string) (float64, error) {
 	tokensSlice, err := getTokens(ex)
 	if err != nil {
@@ -122,6 +127,7 @@ func (c *CalcService) Calc(ex string) (float64, error) {
 	return numStack[0], nil
 }
 
+// Получение слайса токенов
 func getTokens(ex string) (tokens, error) {
 	tokensSlice := tokens{}
 	offset := 0
@@ -167,12 +173,14 @@ func getTokens(ex string) (tokens, error) {
 	return tokensSlice, nil
 }
 
+// Получение следующего токена
 func getNextToken(ex *string) string {
 	result := (*ex)[0]
 	*ex = (*ex)[1:]
 	return string(result)
 }
 
+// Вычисление выражения
 func execute(op *token, lnum, rnum float64) (float64, error) {
 	switch op.value {
 	case "+":
@@ -186,13 +194,14 @@ func execute(op *token, lnum, rnum float64) (float64, error) {
 
 	case "/":
 		if lnum == 0 {
-			return 0, fmt.Errorf("division by zero")
+			return 0, errs.ErrDivisionByZero
 		}
 		return rnum / lnum, nil
 	}
 	return 0, nil
 }
 
+// Получение приоритета операции
 func getPriority(op *token) []int {
 	value := op.value
 	if value == "/" || value == "*" {

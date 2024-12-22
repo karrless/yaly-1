@@ -5,6 +5,7 @@ import (
 )
 
 var (
-	ErrExpressionNotValid = errors.New("Expression not valid")
-	ErrInternal           = errors.New("Internal server error")
+	ErrExpressionNotValid = errors.New("Expression not valid")  // 422
+	ErrInternal           = errors.New("Internal server error") // 500
+	ErrDivisionByZero     = errors.New("Division by zero")
 )

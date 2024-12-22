@@ -7,32 +7,39 @@ import (
 	"yaly-1/pkg/errs"
 )
 
+// Интерфейс сервисного уровня калькулятора
 type CalcService interface {
 	Calc(ex string) (float64, error)
 }
 
+// Структура для хэндлеров калькулятора
 type CalcHandlers struct {
 	service CalcService
 }
 
+// Конструктор для структуры хэндлеров калькулятора
 func NewCalcHandlers(service CalcService) *CalcHandlers {
 	return &CalcHandlers{
 		service: service,
 	}
 }
 
+// Структура запроса
 type calcRequest struct {
 	Expression string `json:"expression"`
 }
 
+// Структура ответа
 type calcResponse struct {
 	Result float64 `json:"result"`
 }
 
+// Структура ошибки
 type errorResponse struct {
 	Error string `json:"error"`
 }
 
+// Хэндлер для калькулятора
 func (ch *CalcHandlers) Calculate(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
