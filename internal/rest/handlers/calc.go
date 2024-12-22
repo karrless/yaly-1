@@ -41,6 +41,7 @@ type errorResponse struct {
 
 // Хэндлер для калькулятора
 func (ch *CalcHandlers) Calculate(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
