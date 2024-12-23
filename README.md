@@ -98,3 +98,7 @@ yaly-1
 ## Заметки
 - Помимо кодов, о которых говорилось в задании: 200, 422, 500, - также присутсвуют два необходимых кода: `400 Bad Request` и `405 StatusMethodNotAllowed`.
 - Так как в задании были указаны только 2 возможные ошибки: `Expression is not valid` и `Internal server error`, - то распространнёная ошибка `Divided by zero`, т.е. деление на 0, интерпретируется как `Expression is not valid`
+
+## Если что
+Пиши если что в [tg](https://t.me/karrless)
+
